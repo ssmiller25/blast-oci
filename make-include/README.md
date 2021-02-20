@@ -4,5 +4,5 @@ A centralized place for common Makefiles that could be included in various proje
 
 - Parameters passed by environment variable.  We're applicable, sane defaults if no variables are set
 - Sane pre-requisite checking
-- Common build, tagging, and local running toolchain
-- Potentially k8s testing from various providers
+- Common build, tagging, and local running toolchain.
+- Potentially k8s testing from various providers.

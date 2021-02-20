@@ -1,0 +1,36 @@
+# Following would be defined by upstream Makefile  Examples below
+
+version := 0.0.1
+release_date := $(shell date +%Y-%m-%d)
+upstream_image := alpine:1.13.1
+build_repo := quay.io/ssmiller25
+build_image := ${build_repo}/myimage
+
+git_hash = $(shell git rev-parse --short -q HEAD)
+
+.PHONY: build
+build:
+	docker build . -t ${build_image}:${git_hash} \
+		--build-arg GIT_HASH=${git_hash} \
+		--build-arg VERSION=${version} \
+		--build-arg RELEASE_DATE=${release_date} \
+		--build-arg UPSTREAM_IMAGE=${build_repo}/${upstream_image}
+
+.PHONY: run
+run: stop
+	docker run -d --rm -p 1948:1948 --name present $(DOCKER_REPO)/present:${git_hash} 
+
+.PHONY: push
+push:
+	docker tag ${build_image}:${git_hash} ${build_image}:${version}
+	docker tag ${build_image}:${git_hash} ${build_image}:latest
+	docker push ${build_image}:${git_hash}
+  docker push ${build_image}:${version}
+	docker push ${build_image}:latest
+
+# Pull and cache dependent images
+.PHONY: cache-upstream
+cache-upstream:
+	docker pull ${upstream_image}
+	docker tag ${upstream_image} ${build_repo}/${upstream_image}
+	docker push ${build_repo}/${upstream_image}
