@@ -2,7 +2,7 @@
 
 version := 0.0.1
 release_date := $(shell date +%Y-%m-%d)
-upstream_image := alpine:1.13.1
+upstream_images := $(shell cat .upstream-images)
 build_repo := quay.io/ssmiller25
 build_image := ${build_repo}/myimage
 
@@ -31,6 +31,8 @@ push:
 # Pull and cache dependent images
 .PHONY: cache-upstream
 cache-upstream:
-	docker pull ${upstream_image}
-	docker tag ${upstream_image} ${build_repo}/${upstream_image}
-	docker push ${build_repo}/${upstream_image}
+  @for image in $(upstream_images); do \
+	  docker pull ${image} \
+	  docker tag ${image} $(build_repo)/${image} \
+    docker push ${build_repo}/${image} \
+  done
