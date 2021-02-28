@@ -8,6 +8,11 @@ build_image ?= ${build_repo}/myimage
 
 git_hash = $(shell git rev-parse --short -q HEAD)
 
+.PHONY: help
+help:
+# From https://stackoverflow.com/a/26339924
+	@$(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
+
 .PHONY: build
 build:
 	@docker build . -t ${build_image}:${git_hash} \
