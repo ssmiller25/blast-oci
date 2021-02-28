@@ -6,7 +6,6 @@ upstream_image ?= "alpine:3.12"
 # If a seperate upstream build image is needed
 #upstream_build_image ?= "node:14.16.0-alpine3.12"
 image_name ?= myimage
-
 build_repo ?= quay.io/ssmiller25
 build_image ?= ${build_repo}/${image_name}
 
@@ -28,11 +27,11 @@ build:
 
 .PHONY: run
 run: stop
-	@docker run -d --rm -p 1948:1948 --name ${image_name} $(DOCKER_REPO)/${build_image}:${git_hash} 
+	@docker run -d --rm -p 1948:1948 --name ${image_name} ${build_image}:${git_hash}
 
 .PHONY: stop
 stop:
-	@docker stop --name ${image_name} > /dev/null 2>&1
+	@docker stop ${image_name} > /dev/null 2>&1 
 
 .PHONY: push
 push:
