@@ -18,7 +18,7 @@ image_name ?= myimage
 build_repo ?= quay.io/ssmiller25
 build_image ?= ${build_repo}/${image_name}
 
-include $(shell curl -sSL "https://raw.githubusercontent.com/ssmiller25/blast-oci/main/make-include/Makefile.docker")
+include $(shell curl -sSL "https://raw.githubusercontent.com/ssmiller25/blast-oci/main/include/Makefile.docker")
 
 ```
 
