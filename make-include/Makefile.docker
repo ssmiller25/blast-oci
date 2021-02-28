@@ -32,7 +32,7 @@ push:
 .PHONY: cache-upstream
 cache-upstream:
 	@for image in $(upstream_images); do \
-		docker pull ${image}; \
-		docker tag ${image} $(build_repo)/${image}; \
-		docker push ${build_repo}/${image}; \
+		docker pull $${image}; \
+		docker tag $${image} $(build_repo)/$${image}; \
+		docker push ${build_repo}/$${image}; \
 	done
