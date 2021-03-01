@@ -31,7 +31,7 @@ run: stop
 
 .PHONY: stop
 stop:
-	@docker stop ${image_name} > /dev/null 2>&1 
+	@docker stop ${image_name} > /dev/null 2>&1 || true
 
 .PHONY: push
 push:
