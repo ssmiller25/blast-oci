@@ -8,6 +8,7 @@ upstream_image ?= "alpine:3.12"
 image_name ?= myimage
 build_repo ?= quay.io/ssmiller25
 build_image ?= ${build_repo}/${image_name}
+run_flags ?= -p 1948:1948
 
 
 git_hash = $(shell git rev-parse --short -q HEAD)
@@ -27,7 +28,7 @@ build:
 
 .PHONY: run
 run: stop
-	@docker run -d --rm -p 1948:1948 --name ${image_name} ${build_image}:${git_hash}
+	@docker run -d --rm ${run_flags} --name ${image_name} ${build_image}:${git_hash}
 
 .PHONY: stop
 stop:
